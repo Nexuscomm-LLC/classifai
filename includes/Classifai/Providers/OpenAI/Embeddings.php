@@ -571,9 +571,30 @@ class Embeddings extends Provider {
 			return;
 		}
 
-		// Only run on posts for now. // TODO: Add support for other post types.
+		// Run on all public post types that have show_in_rest enabled.
 		$post_type = get_post_type( $post_id );
-		if ( 'post' !== $post_type ) {
+		$post_type_object = get_post_type_object( $post_type );
+
+		// Check if the post type supports REST API (required for block editor support).
+		if ( ! $post_type_object || empty( $post_type_object->show_in_rest ) ) {
+			return;
+		}
+
+		/**
+		 * Filter whether to generate embeddings for this post type.
+		 *
+		 * @since 3.8.0
+		 * @hook classifai_embeddings_post_type_enabled
+		 *
+		 * @param bool   $enabled   Whether embeddings should be generated. Default true for REST-enabled types.
+		 * @param string $post_type The post type.
+		 * @param int    $post_id   The post ID.
+		 *
+		 * @return bool Whether to generate embeddings.
+		 */
+		$should_generate = apply_filters( 'classifai_embeddings_post_type_enabled', true, $post_type, $post_id );
+
+		if ( ! $should_generate ) {
 			return;
 		}
 
