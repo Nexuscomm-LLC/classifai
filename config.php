@@ -31,6 +31,10 @@ classifai_define( 'WATSON_CONCEPT_TAXONOMY', 'watson-concept' );
 classifai_define( 'WATSON_TIMEOUT', 60 ); // seconds
 classifai_define( 'WATSON_KEYWORD_LIMIT', 10 );
 
+// Debug mode - set to true for development/troubleshooting.
+// Can also be defined in wp-config.php for site-wide debugging.
+classifai_define( 'CLASSIFAI_DEBUG', false );
+
 // Default Thresholds
 classifai_define( 'WATSON_CATEGORY_THRESHOLD', 70 );
 classifai_define( 'WATSON_KEYWORD_THRESHOLD', 70 );
